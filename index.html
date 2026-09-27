@@ -1,0 +1,191 @@
+```html
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>کمک به نیازمندان</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Tahoma, Arial, sans-serif;
+      background: #f4f5f7;
+      color: #222;
+    }
+
+    header {
+      background: #222;
+      color: white;
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    header h1 {
+      margin: 0 0 12px;
+      font-size: 30px;
+    }
+
+    header p {
+      margin: 0;
+      color: #ddd;
+    }
+
+    .container {
+      max-width: 650px;
+      margin: 30px auto;
+      padding: 0 15px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 18px;
+      padding: 25px;
+      margin-bottom: 20px;
+      box-shadow: 0 5px 25px rgba(0,0,0,.08);
+    }
+
+    h2 {
+      text-align: center;
+      margin-top: 0;
+    }
+
+    .address {
+      direction: ltr;
+      word-break: break-all;
+      background: #f1f2f4;
+      border: 1px solid #ddd;
+      padding: 15px;
+      border-radius: 10px;
+      text-align: center;
+      font-family: monospace;
+      font-size: 15px;
+    }
+
+    button {
+      width: 100%;
+      border: 0;
+      border-radius: 10px;
+      padding: 14px;
+      margin-top: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      background: #f2c94c;
+      color: #222;
+    }
+
+    #qrcode {
+      display: flex;
+      justify-content: center;
+      margin: 25px 0;
+    }
+
+    .notice {
+      background: #fff7d6;
+      border-radius: 10px;
+      padding: 15px;
+      line-height: 1.9;
+      font-size: 14px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px;
+      color: #777;
+      font-size: 13px;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>❤️ کمک به نیازمندان</h1>
+  <p>کمک‌های داوطلبانه با بیت‌کوین</p>
+</header>
+
+<div class="container">
+
+  <div class="card">
+
+    <h2>کمک با Bitcoin</h2>
+
+    <p>
+      در صورت تمایل می‌توانید کمک داوطلبانه خود را
+      از طریق شبکه اصلی Bitcoin ارسال کنید.
+    </p>
+
+    <div class="notice">
+      ⚠️ لطفاً قبل از ارسال بیت‌کوین، آدرس را با دقت بررسی کنید.
+    </div>
+
+    <h3>آدرس Bitcoin</h3>
+
+    <div class="address" id="btcAddress">
+      1Q99GpYnEU9yELNLjiJUWopNT1HatRYQrV
+    </div>
+
+    <div id="qrcode"></div>
+
+    <button onclick="copyAddress()">
+      📋 کپی آدرس بیت‌کوین
+    </button>
+
+  </div>
+
+  <div class="card">
+
+    <h2>📊 شفافیت</h2>
+
+    <p>
+      برای افزایش شفافیت، می‌توانید گزارش دریافت
+      کمک‌ها و نحوه مصرف آن‌ها را در این قسمت منتشر کنید.
+    </p>
+
+    <p>
+      <strong>شبکه:</strong> Bitcoin (BTC)
+    </p>
+
+  </div>
+
+</div>
+
+<footer>
+  این صفحه برای دریافت کمک‌های داوطلبانه ایجاد شده است.
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<script>
+
+const BTC_ADDRESS =
+"1Q99GpYnEU9yELNLjiJUWopNT1HatRYQrV";
+
+new QRCode(document.getElementById("qrcode"), {
+  text: BTC_ADDRESS,
+  width: 220,
+  height: 220
+});
+
+function copyAddress() {
+
+  navigator.clipboard.writeText(BTC_ADDRESS)
+    .then(function() {
+      alert("آدرس بیت‌کوین کپی شد ✅");
+    })
+    .catch(function() {
+      alert("کپی خودکار انجام نشد؛ آدرس را دستی کپی کنید.");
+    });
+
+}
+
+</script>
+
+</body>
+</html>
+```
