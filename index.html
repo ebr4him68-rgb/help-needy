@@ -608,4 +608,396 @@ setInterval(
 
 </body>
 </html>
-```
+```<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Change90 - بازی انفجار DOGE</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+margin:0;
+font-family:Tahoma,Arial,sans-serif;
+background:linear-gradient(135deg,#063d21,#08753b,#022414);
+color:#fff;
+min-height:100vh;
+}
+.wrap{max-width:1000px;margin:auto;padding:15px}
+.top{
+display:flex;justify-content:space-between;align-items:center;
+background:#062c19cc;padding:15px;border-radius:18px;
+border:1px solid #27e681;
+margin-bottom:15px;
+}
+.logo{font-size:22px;font-weight:bold}
+.balance{
+background:#031d11;padding:10px 15px;border-radius:12px;
+color:#70ffad;
+}
+.back{color:white;text-decoration:none;display:inline-block;margin-bottom:12px}
+.grid{
+display:grid;grid-template-columns:1fr 330px;gap:15px;
+}
+@media(max-width:750px){.grid{grid-template-columns:1fr}}
+.card{
+background:#031d12dd;
+border:1px solid #168a4c;
+border-radius:22px;
+padding:18px;
+box-shadow:0 15px 50px #0007;
+}
+.arena{
+height:500px;
+display:flex;
+align-items:center;
+justify-content:center;
+position:relative;
+overflow:hidden;
+background:
+radial-gradient(circle at center,#15944e55,transparent 55%);
+}
+.mult{
+font-size:78px;
+font-weight:bold;
+direction:ltr;
+text-shadow:0 0 35px #39ff91;
+z-index:3;
+}
+.mult.crash{
+color:#ff4357;
+text-shadow:0 0 35px #ff304d;
+}
+.status{
+position:absolute;top:25px;
+color:#8dffc0;
+font-size:15px;
+}
+.rocket{
+position:absolute;
+font-size:48px;
+bottom:70px;
+left:10%;
+filter:drop-shadow(0 0 15px #51ff99);
+}
+h3{margin-top:0}
+label{display:block;margin:12px 0 6px}
+input{
+width:100%;padding:13px;
+border-radius:11px;
+border:1px solid #237d4d;
+background:#021a0f;color:#fff;
+font-size:16px;
+}
+button{
+width:100%;padding:14px;
+margin-top:10px;
+border:0;border-radius:12px;
+font-size:16px;font-weight:bold;
+cursor:pointer;
+}
+.start{background:#20df78;color:#032b18}
+.cash{background:#ffd83d;color:#241d00}
+.deposit{background:#2b9cff;color:white}
+button:disabled{opacity:.4}
+.address{
+background:#02180d;
+padding:12px;
+border-radius:10px;
+font-size:12px;
+word-break:break-all;
+direction:ltr;
+text-align:left;
+border:1px solid #1b7548;
+}
+.notice{
+font-size:12px;
+color:#a9d8bc;
+line-height:1.8;
+margin-top:12px;
+}
+.history{
+display:flex;gap:7px;flex-wrap:wrap;
+}
+.result{
+background:#0a4b2b;
+padding:7px 10px;
+border-radius:8px;
+direction:ltr;
+}
+.red{color:#ff6876}
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+<a class="back" href="index.html">← بازگشت به Change90</a>
+
+<div class="top">
+<div class="logo">💥 Change90 Crash</div>
+<div class="balance">
+موجودی: <span id="balance">1000.00</span> DOGE
+</div>
+</div>
+
+<div class="grid">
+
+<div>
+
+<div class="card arena" id="arena">
+<div class="status" id="status">آماده شروع</div>
+<div class="mult" id="mult">1.00x</div>
+<div class="rocket" id="rocket">🚀</div>
+</div>
+
+<div class="card" style="margin-top:15px">
+<h3>📊 نتایج اخیر</h3>
+<div class="history" id="history"></div>
+</div>
+
+</div>
+
+<div>
+
+<div class="card">
+
+<h3>💰 شرط DOGE</h3>
+
+<input id="bet" type="number" min="1" value="10">
+
+<button class="start" id="start" onclick="startGame()">
+🚀 شروع بازی
+</button>
+
+<button class="cash" id="cash" onclick="cashout()" disabled>
+💰 برداشت
+</button>
+
+<p>شرط فعلی: <b><span id="current">0</span> DOGE</b></p>
+<p>ضریب: <b id="factor">1.00x</b></p>
+<p>برد احتمالی: <b id="win">0</b> DOGE</p>
+
+</div>
+
+<div class="card" style="margin-top:15px">
+
+<h3>💎 واریز DOGE</h3>
+
+<p>واریز بازی فقط به آدرس زیر:</p>
+
+<div class="address">
+DA9b1AqJqgsdFNuJNjzRo2g5wFj1rEeQLk
+</div>
+
+<button class="deposit" onclick="copyAddress()">
+📋 کپی آدرس DOGE
+</button>
+
+<div class="notice">
+حداقل واریز: 1 DOGE<br>
+شبکه: Dogecoin (DOGE)<br>
+قبل از ارسال، شبکه و آدرس را بررسی کنید.
+</div>
+
+</div>
+
+<div class="card" style="margin-top:15px">
+
+<h3>⚠️ وضعیت نسخه فعلی</h3>
+
+<div class="notice">
+این نسخه رابط بازی و آدرس واریز را دارد.
+برای اینکه تراکنش واقعی DOGE شناسایی شود و
+موجودی کاربر خودکار افزایش پیدا کند، باید
+سیستم سمت سرور و تأیید تراکنش بلاکچین اضافه شود.
+</div>
+
+</div>
+
+</div>
+</div>
+</div>
+
+<script>
+
+const DOGE_ADDRESS =
+"DA9b1AqJqgsdFNuJNjzRo2g5wFj1rEeQLk";
+
+let balance=1000;
+let bet=0;
+let multiplier=1;
+let running=false;
+let startTime=0;
+let crashPoint=0;
+let animation;
+
+const balanceEl=document.getElementById("balance");
+const multEl=document.getElementById("mult");
+const statusEl=document.getElementById("status");
+const factorEl=document.getElementById("factor");
+const winEl=document.getElementById("win");
+const currentEl=document.getElementById("current");
+const startEl=document.getElementById("start");
+const cashEl=document.getElementById("cash");
+const rocket=document.getElementById("rocket");
+
+function update(){
+balanceEl.textContent=balance.toFixed(2);
+}
+
+function randomCrash(){
+const r=Math.random();
+
+if(r<0.10)return 1.10+Math.random()*0.40;
+if(r<0.30)return 1.50+Math.random()*1.00;
+if(r<0.65)return 2.50+Math.random()*2.50;
+if(r<0.90)return 5+Math.random()*5;
+return 10+Math.random()*15;
+}
+
+function startGame(){
+
+if(running)return;
+
+const amount=Number(document.getElementById("bet").value);
+
+if(amount<=0){
+alert("مبلغ شرط را وارد کنید.");
+return;
+}
+
+if(amount>balance){
+alert("موجودی کافی نیست.");
+return;
+}
+
+balance-=amount;
+bet=amount;
+
+multiplier=1;
+crashPoint=randomCrash();
+running=true;
+startTime=performance.now();
+
+currentEl.textContent=bet.toFixed(2);
+
+startEl.disabled=true;
+cashEl.disabled=false;
+
+statusEl.textContent="🚀 بازی شروع شد";
+
+multEl.classList.remove("crash");
+
+run();
+update();
+}
+
+function run(){
+
+if(!running)return;
+
+const elapsed=(performance.now()-startTime)/1000;
+
+multiplier=Math.exp(elapsed*.18);
+
+multEl.textContent=multiplier.toFixed(2)+"x";
+factorEl.textContent=multiplier.toFixed(2)+"x";
+
+winEl.textContent=(bet*multiplier).toFixed(2);
+
+const p=Math.min(82,elapsed*5);
+
+rocket.style.left=(10+p)+"%";
+rocket.style.bottom=(70+p*2)+"px";
+
+if(multiplier>=crashPoint){
+crash();
+return;
+}
+
+animation=requestAnimationFrame(run);
+}
+
+function cashout(){
+
+if(!running)return;
+
+const result=bet*multiplier;
+
+balance+=result;
+
+running=false;
+
+cancelAnimationFrame(animation);
+
+statusEl.textContent=
+"💰 برداشت در "+multiplier.toFixed(2)+"x";
+
+cashEl.disabled=true;
+startEl.disabled=false;
+
+addHistory(multiplier,true);
+
+bet=0;
+currentEl.textContent="0";
+winEl.textContent="0";
+
+update();
+}
+
+function crash(){
+
+running=false;
+
+cancelAnimationFrame(animation);
+
+multEl.classList.add("crash");
+
+multEl.textContent=crashPoint.toFixed(2)+"x";
+
+statusEl.textContent=
+"💥 انفجار در "+crashPoint.toFixed(2)+"x";
+
+cashEl.disabled=true;
+startEl.disabled=false;
+
+addHistory(crashPoint,false);
+
+bet=0;
+currentEl.textContent="0";
+winEl.textContent="0";
+}
+
+function addHistory(value,won){
+
+const item=document.createElement("div");
+
+item.className="result"+(won?"":" red");
+
+item.textContent=
+(won?"✓ ":"✕ ")+value.toFixed(2)+"x";
+
+document.getElementById("history").prepend(item);
+}
+
+function copyAddress(){
+
+navigator.clipboard.writeText(DOGE_ADDRESS)
+.then(()=>{
+alert("آدرس DOGE کپی شد.");
+})
+.catch(()=>{
+alert(DOGE_ADDRESS);
+});
+
+}
+
+update();
+
+</script>
+
+</body>
+  </html>
