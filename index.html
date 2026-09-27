@@ -1,10 +1,12 @@
 ```html
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
-<head><meta name="google-site-verification" content="WVXLHHqCI4qle5K-tA5k5It0NGOFdbblweVZVq_LBy4" />
+<head>
+  <meta name="google-site-verification" content="WVXLHHqCI4qle5K-tA5k5It0NGOFdbblweVZVq_LBy4" />
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>کمک به نیازمندان</title>
+
+  <title>کمک به نیازمندان و بازی مار</title>
 
   <style>
     * {
@@ -22,7 +24,7 @@
       background: #222;
       color: white;
       text-align: center;
-      padding: 40px 20px;
+      padding: 35px 20px;
     }
 
     header h1 {
@@ -36,15 +38,15 @@
     }
 
     .container {
-      max-width: 650px;
-      margin: 30px auto;
+      max-width: 700px;
+      margin: 25px auto;
       padding: 0 15px;
     }
 
     .card {
       background: white;
       border-radius: 18px;
-      padding: 25px;
+      padding: 22px;
       margin-bottom: 20px;
       box-shadow: 0 5px 25px rgba(0,0,0,.08);
     }
@@ -59,11 +61,11 @@
       word-break: break-all;
       background: #f1f2f4;
       border: 1px solid #ddd;
-      padding: 15px;
+      padding: 14px;
       border-radius: 10px;
       text-align: center;
       font-family: monospace;
-      font-size: 15px;
+      font-size: 14px;
     }
 
     button {
@@ -79,10 +81,14 @@
       color: #222;
     }
 
+    button:hover {
+      opacity: .9;
+    }
+
     #qrcode {
       display: flex;
       justify-content: center;
-      margin: 25px 0;
+      margin: 20px 0;
     }
 
     .notice {
@@ -91,6 +97,64 @@
       padding: 15px;
       line-height: 1.9;
       font-size: 14px;
+      margin: 15px 0;
+    }
+
+    .game-info {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .stat {
+      flex: 1;
+      background: #f1f2f4;
+      border-radius: 10px;
+      padding: 12px;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    #gameCanvas {
+      display: block;
+      width: 100%;
+      max-width: 500px;
+      height: auto;
+      margin: auto;
+      background: #111;
+      border-radius: 12px;
+      border: 3px solid #333;
+      touch-action: none;
+    }
+
+    .controls {
+      max-width: 250px;
+      margin: 15px auto 0;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 7px;
+    }
+
+    .controls button {
+      margin: 0;
+      padding: 12px;
+    }
+
+    .empty {
+      visibility: hidden;
+    }
+
+    #gameStatus {
+      text-align: center;
+      font-weight: bold;
+      margin: 15px 0;
+    }
+
+    .doge {
+      direction: ltr;
+      text-align: center;
+      font-size: 20px;
+      font-weight: bold;
     }
 
     footer {
@@ -106,49 +170,96 @@
 
 <header>
   <h1>❤️ کمک به نیازمندان</h1>
-  <p>کمک‌های داوطلبانه با بیت‌کوین</p>
+  <p>کمک‌های داوطلبانه و بازی سرگرمی</p>
 </header>
 
 <div class="container">
 
+  <!-- پرداخت ورود -->
   <div class="card">
-
-    <h2>کمک با Bitcoin</h2>
-
-    <p>
-      در صورت تمایل می‌توانید کمک داوطلبانه خود را
-      از طریق شبکه اصلی Bitcoin ارسال کنید.
-    </p>
+    <h2>🐕 ورود به بازی</h2>
 
     <div class="notice">
-      ⚠️ لطفاً قبل از ارسال بیت‌کوین، آدرس را با دقت بررسی کنید.
+      برای ورود به بازی، هزینه ثابت <strong>10 DOGE</strong> پرداخت می‌شود.
+      این مبلغ هزینه ورود است و نتیجه بازی روی آن تأثیری ندارد.
     </div>
 
-    <h3>آدرس Bitcoin</h3>
+    <p><strong>آدرس Dogecoin:</strong></p>
 
-    <div class="address" id="btcAddress">
-      1Q99GpYnEU9yELNLjiJUWopNT1HatRYQrV
+    <div class="address" id="dogeAddress">
+      DA9b1AqJqgsdFNuJNjzRo2g5wFj1rEeQLk
     </div>
 
-    <div id="qrcode"></div>
+    <div id="dogeQR"></div>
 
-    <button onclick="copyAddress()">
-      📋 کپی آدرس بیت‌کوین
+    <button onclick="copyDogeAddress()">
+      📋 کپی آدرس DOGE
     </button>
+
+    <button onclick="showGame()">
+      🎮 ورود به بازی
+    </button>
+  </div>
+
+  <!-- بازی -->
+  <div class="card" id="gameSection" style="display:none;">
+
+    <h2>🐍 بازی مار</h2>
+
+    <div class="game-info">
+      <div class="stat">
+        امتیاز<br>
+        <span id="score">0</span>
+      </div>
+
+      <div class="stat">
+        اعتبار نمایشی<br>
+        <span id="reward">0.000</span> DOGE
+      </div>
+    </div>
+
+    <div id="gameStatus">
+      برای شروع روی دکمه زیر بزن.
+    </div>
+
+    <canvas id="gameCanvas" width="400" height="400"></canvas>
+
+    <button onclick="startGame()">
+      ▶️ شروع / شروع مجدد
+    </button>
+
+    <div class="controls">
+      <button class="empty"></button>
+      <button onclick="changeDirection('up')">⬆️</button>
+      <button class="empty"></button>
+
+      <button onclick="changeDirection('left')">⬅️</button>
+      <button onclick="changeDirection('down')">⬇️</button>
+      <button onclick="changeDirection('right')">➡️</button>
+    </div>
+
+    <div class="notice">
+      هر بار که مار توپ را بخورد، <strong>0.001 DOGE اعتبار نمایشی</strong>
+      به امتیاز این دور اضافه می‌شود. این اعتبار قابل برداشت نیست.
+    </div>
 
   </div>
 
+  <!-- شفافیت -->
   <div class="card">
 
     <h2>📊 شفافیت</h2>
 
     <p>
-      برای افزایش شفافیت، می‌توانید گزارش دریافت
-      کمک‌ها و نحوه مصرف آن‌ها را در این قسمت منتشر کنید.
+      این صفحه برای دریافت کمک‌های داوطلبانه ایجاد شده است.
     </p>
 
     <p>
-      <strong>شبکه:</strong> Bitcoin (BTC)
+      <strong>ارز:</strong> Dogecoin (DOGE)
+    </p>
+
+    <p>
+      <strong>شبکه:</strong> Dogecoin Mainnet
     </p>
 
   </div>
@@ -156,33 +267,352 @@
 </div>
 
 <footer>
-  این صفحه برای دریافت کمک‌های داوطلبانه ایجاد شده است.
+  این صفحه برای کمک‌های داوطلبانه و سرگرمی ایجاد شده است.
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 <script>
 
-const BTC_ADDRESS =
-"1Q99GpYnEU9yELNLjiJUWopNT1HatRYQrV";
+  const DOGE_ADDRESS =
+    "DA9b1AqJqgsdFNuJNjzRo2g5wFj1rEeQLk";
 
-new QRCode(document.getElementById("qrcode"), {
-  text: BTC_ADDRESS,
-  width: 220,
-  height: 220
-});
+  const ENTRY_FEE = 10;
+  const REWARD_PER_BALL = 0.001;
 
-function copyAddress() {
+  /* QR کد */
+  new QRCode(document.getElementById("dogeQR"), {
+    text: "dogecoin:" + DOGE_ADDRESS,
+    width: 220,
+    height: 220
+  });
 
-  navigator.clipboard.writeText(BTC_ADDRESS)
-    .then(function() {
-      alert("آدرس بیت‌کوین کپی شد ✅");
-    })
-    .catch(function() {
-      alert("کپی خودکار انجام نشد؛ آدرس را دستی کپی کنید.");
+  /* کپی آدرس */
+  function copyDogeAddress() {
+
+    navigator.clipboard.writeText(DOGE_ADDRESS)
+      .then(function() {
+        alert("آدرس DOGE کپی شد ✅");
+      })
+      .catch(function() {
+        alert("کپی خودکار انجام نشد؛ آدرس را دستی کپی کنید.");
+      });
+
+  }
+
+  /* نمایش بازی */
+  function showGame() {
+
+    document.getElementById("gameSection").style.display = "block";
+
+    document.getElementById("gameSection")
+      .scrollIntoView({
+        behavior: "smooth"
+      });
+  }
+
+
+  /* -------------------------
+     بازی مار
+  ------------------------- */
+
+  const canvas = document.getElementById("gameCanvas");
+  const ctx = canvas.getContext("2d");
+
+  const grid = 20;
+  const tileCount = canvas.width / grid;
+
+  let snake = [];
+  let food = {};
+
+  let dx = 1;
+  let dy = 0;
+
+  let nextDx = 1;
+  let nextDy = 0;
+
+  let score = 0;
+  let reward = 0;
+
+  let gameRunning = false;
+  let gameLoop = null;
+
+
+  function resetGame() {
+
+    snake = [
+      {x: 10, y: 10},
+      {x: 9, y: 10},
+      {x: 8, y: 10}
+    ];
+
+    dx = 1;
+    dy = 0;
+
+    nextDx = 1;
+    nextDy = 0;
+
+    score = 0;
+    reward = 0;
+
+    updateStats();
+    createFood();
+    draw();
+
+  }
+
+
+  function createFood() {
+
+    let valid = false;
+
+    while (!valid) {
+
+      food = {
+        x: Math.floor(Math.random() * tileCount),
+        y: Math.floor(Math.random() * tileCount)
+      };
+
+      valid = !snake.some(function(part) {
+        return part.x === food.x && part.y === food.y;
+      });
+
+    }
+
+  }
+
+
+  function startGame() {
+
+    clearInterval(gameLoop);
+
+    resetGame();
+
+    gameRunning = true;
+
+    document.getElementById("gameStatus").textContent =
+      "بازی شروع شد! توپ را بخور 🐍";
+
+    gameLoop = setInterval(updateGame, 110);
+
+  }
+
+
+  function updateGame() {
+
+    dx = nextDx;
+    dy = nextDy;
+
+    const head = {
+      x: snake[0].x + dx,
+      y: snake[0].y + dy
+    };
+
+
+    /* برخورد با دیوار */
+
+    if (
+      head.x < 0 ||
+      head.x >= tileCount ||
+      head.y < 0 ||
+      head.y >= tileCount
+    ) {
+
+      gameOver();
+      return;
+
+    }
+
+
+    /* برخورد با بدن */
+
+    if (
+      snake.some(function(part) {
+        return part.x === head.x && part.y === head.y;
+      })
+    ) {
+
+      gameOver();
+      return;
+
+    }
+
+
+    snake.unshift(head);
+
+
+    /* خوردن توپ */
+
+    if (
+      head.x === food.x &&
+      head.y === food.y
+    ) {
+
+      score++;
+
+      reward += REWARD_PER_BALL;
+
+      updateStats();
+
+      createFood();
+
+    } else {
+
+      snake.pop();
+
+    }
+
+
+    draw();
+
+  }
+
+
+  function gameOver() {
+
+    gameRunning = false;
+
+    clearInterval(gameLoop);
+
+    document.getElementById("gameStatus").innerHTML =
+      "💀 باختی! امتیاز این دور: <strong>" +
+      score +
+      "</strong><br>" +
+      "اعتبار نمایشی: <strong>" +
+      reward.toFixed(3) +
+      " DOGE</strong>";
+
+  }
+
+
+  function updateStats() {
+
+    document.getElementById("score").textContent = score;
+
+    document.getElementById("reward").textContent =
+      reward.toFixed(3);
+
+  }
+
+
+  function draw() {
+
+    ctx.fillStyle = "#111";
+    ctx.fillRect(
+      0,
+      0,
+      canvas.width,
+      canvas.height
+    );
+
+
+    /* توپ */
+
+    ctx.fillStyle = "#f2c94c";
+
+    ctx.beginPath();
+
+    ctx.arc(
+      food.x * grid + grid / 2,
+      food.y * grid + grid / 2,
+      grid / 2 - 2,
+      0,
+      Math.PI * 2
+    );
+
+    ctx.fill();
+
+
+    /* مار */
+
+    snake.forEach(function(part, index) {
+
+      ctx.fillStyle =
+        index === 0 ? "#4caf50" : "#8bc34a";
+
+      ctx.fillRect(
+        part.x * grid + 1,
+        part.y * grid + 1,
+        grid - 2,
+        grid - 2
+      );
+
     });
 
-}
+  }
+
+
+  function changeDirection(direction) {
+
+    if (!gameRunning) return;
+
+
+    if (
+      direction === "up" &&
+      dy !== 1
+    ) {
+
+      nextDx = 0;
+      nextDy = -1;
+
+    }
+
+
+    if (
+      direction === "down" &&
+      dy !== -1
+    ) {
+
+      nextDx = 0;
+      nextDy = 1;
+
+    }
+
+
+    if (
+      direction === "left" &&
+      dx !== 1
+    ) {
+
+      nextDx = -1;
+      nextDy = 0;
+
+    }
+
+
+    if (
+      direction === "right" &&
+      dx !== -1
+    ) {
+
+      nextDx = 1;
+      nextDy = 0;
+
+    }
+
+  }
+
+
+  /* کنترل با کیبورد */
+
+  document.addEventListener("keydown", function(event) {
+
+    if (event.key === "ArrowUp")
+      changeDirection("up");
+
+    if (event.key === "ArrowDown")
+      changeDirection("down");
+
+    if (event.key === "ArrowLeft")
+      changeDirection("left");
+
+    if (event.key === "ArrowRight")
+      changeDirection("right");
+
+  });
+
+
+  resetGame();
 
 </script>
 
