@@ -998,7 +998,281 @@ alert(DOGE_ADDRESS);
 update();
 
 </script>
+<!-- ===== بخش برداشت DOGE ===== -->
 
+<style>
+.withdraw-box{
+  max-width:500px;
+  margin:25px auto;
+  padding:22px;
+  background:rgba(3,29,18,.95);
+  border:1px solid #20df78;
+  border-radius:18px;
+  color:#fff;
+  font-family:Tahoma,Arial,sans-serif;
+  box-shadow:0 10px 35px rgba(0,0,0,.35);
+}
+
+.withdraw-box h2{
+  text-align:center;
+  margin-top:0;
+  color:#65ffa5;
+}
+
+.withdraw-box label{
+  display:block;
+  margin:14px 0 7px;
+}
+
+.withdraw-box input{
+  width:100%;
+  padding:13px;
+  border-radius:10px;
+  border:1px solid #277a4c;
+  background:#02180d;
+  color:#fff;
+  font-size:15px;
+  outline:none;
+}
+
+.withdraw-box input:focus{
+  border-color:#20df78;
+}
+
+.withdraw-btn{
+  width:100%;
+  margin-top:18px;
+  padding:14px;
+  border:0;
+  border-radius:11px;
+  background:#20df78;
+  color:#032b18;
+  font-size:17px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.withdraw-btn:hover{
+  opacity:.9;
+}
+
+.withdraw-info{
+  margin-top:12px;
+  padding:10px;
+  border-radius:9px;
+  background:#082f1c;
+  color:#b9e8ca;
+  font-size:13px;
+  line-height:1.8;
+}
+
+.withdraw-success{
+  display:none;
+  margin-top:15px;
+  padding:14px;
+  border-radius:10px;
+  background:#063c22;
+  border:1px solid #20df78;
+  color:#8dffb9;
+  line-height:2;
+}
+
+.withdraw-error{
+  display:none;
+  margin-top:15px;
+  padding:12px;
+  border-radius:10px;
+  background:#48151b;
+  border:1px solid #ff5265;
+  color:#ff9ba5;
+}
+</style>
+
+
+<div class="withdraw-box">
+
+  <h2>💸 برداشت DOGE</h2>
+
+  <div class="withdraw-info">
+    حداقل مبلغ برداشت:
+    <strong>100 DOGE</strong>
+    <br>
+    پرداخت درخواست‌ها به صورت دستی انجام می‌شود.
+  </div>
+
+  <label for="withdrawAmount">
+    مبلغ برداشت
+  </label>
+
+  <input
+    id="withdrawAmount"
+    type="number"
+    min="100"
+    step="1"
+    placeholder="حداقل 100 DOGE"
+  >
+
+  <label for="withdrawAddress">
+    آدرس کیف پول DOGE
+  </label>
+
+  <input
+    id="withdrawAddress"
+    type="text"
+    dir="ltr"
+    autocomplete="off"
+    placeholder="آدرس DOGE خود را وارد کنید"
+  >
+
+  <button
+    type="button"
+    class="withdraw-btn"
+    onclick="registerDogeWithdrawal()"
+  >
+    💸 ثبت درخواست برداشت
+  </button>
+
+  <div
+    id="withdrawError"
+    class="withdraw-error"
+  ></div>
+
+  <div
+    id="withdrawSuccess"
+    class="withdraw-success"
+  ></div>
+
+</div>
+
+
+<script>
+(function(){
+
+  window.registerDogeWithdrawal = function(){
+
+    const amountInput =
+      document.getElementById("withdrawAmount");
+
+    const addressInput =
+      document.getElementById("withdrawAddress");
+
+    const errorBox =
+      document.getElementById("withdrawError");
+
+    const successBox =
+      document.getElementById("withdrawSuccess");
+
+    const amount =
+      Number(amountInput.value);
+
+    const address =
+      addressInput.value.trim();
+
+    errorBox.style.display = "none";
+    successBox.style.display = "none";
+
+    /* حداقل برداشت */
+    if(!Number.isFinite(amount) || amount < 100){
+
+      errorBox.textContent =
+        "❌ حداقل مبلغ برداشت 100 DOGE است.";
+
+      errorBox.style.display = "block";
+
+      return;
+    }
+
+    /* بررسی خالی نبودن آدرس */
+    if(!address){
+
+      errorBox.textContent =
+        "❌ لطفاً آدرس کیف پول DOGE را وارد کنید.";
+
+      errorBox.style.display = "block";
+
+      return;
+    }
+
+    /* بررسی ساده آدرس DOGE */
+    if(address.length < 25 || address.length > 100){
+
+      errorBox.textContent =
+        "❌ آدرس DOGE واردشده معتبر به نظر نمی‌رسد.";
+
+      errorBox.style.display = "block";
+
+      return;
+    }
+
+    /*
+      ثبت درخواست در مرورگر.
+      پرداخت واقعی توسط مدیر به صورت دستی انجام می‌شود.
+    */
+
+    const withdrawal = {
+
+      id:
+        "WD-" +
+        Date.now(),
+
+      currency:
+        "DOGE",
+
+      amount:
+        amount,
+
+      address:
+        address,
+
+      status:
+        "در انتظار پرداخت دستی",
+
+      createdAt:
+        new Date().toISOString()
+
+    };
+
+    localStorage.setItem(
+      "change90_doge_withdrawal",
+      JSON.stringify(withdrawal)
+    );
+
+    successBox.innerHTML =
+      "✅ درخواست برداشت ثبت شد." +
+      "<br><br>" +
+      "<strong>مبلغ:</strong> " +
+      amount +
+      " DOGE" +
+      "<br>" +
+      "<strong>آدرس:</strong> " +
+      "<span dir='ltr'>" +
+      escapeHtml(address) +
+      "</span>" +
+      "<br>" +
+      "<strong>وضعیت:</strong> در انتظار پرداخت دستی";
+
+    successBox.style.display = "block";
+
+    amountInput.value = "";
+    addressInput.value = "";
+
+  };
+
+
+  function escapeHtml(text){
+
+    const div =
+      document.createElement("div");
+
+    div.textContent = text;
+
+    return div.innerHTML;
+  }
+
+})();
+</script>
+
+<!-- ===== پایان بخش برداشت DOGE ===== -->
 </body>
   </html>
 
