@@ -1000,57 +1000,5 @@ update();
 </script>
 
 </body>
-  </html>function submitWithdraw(){
+  </html>
 
-  const amount = Number(
-    document.getElementById("withdrawAmount").value
-  );
-
-  const address =
-    document.getElementById("withdrawAddress").value.trim();
-
-  const result =
-    document.getElementById("withdrawResult");
-
-  if(amount < 100){
-    alert("حداقل مبلغ برداشت 100 DOGE است.");
-    return;
-  }
-
-  if(!address){
-    alert("آدرس DOGE را وارد کنید.");
-    return;
-  }
-
-  if(amount > balance){
-    alert("موجودی کافی نیست.");
-    return;
-  }
-
-  balance -= amount;
-  update();
-
-  const request = {
-    amount: amount,
-    address: address,
-    status: "در انتظار پرداخت",
-    time: new Date().toLocaleString("fa-IR")
-  };
-
-  localStorage.setItem(
-    "doge_withdraw_request",
-    JSON.stringify(request)
-  );
-
-  result.style.display = "block";
-
-  result.innerHTML =
-    "✅ درخواست برداشت ثبت شد.<br>" +
-    "مبلغ: <b>" + amount + " DOGE</b><br>" +
-    "آدرس: <span dir='ltr'>" + address + "</span><br>" +
-    "حداقل برداشت: <b>100 DOGE</b><br>" +
-    "وضعیت: <b>در انتظار پرداخت</b>";
-
-  document.getElementById("withdrawAmount").value = "";
-  document.getElementById("withdrawAddress").value = "";
-}
