@@ -1237,20 +1237,6 @@ update();
       JSON.stringify(withdrawal)
     );
 
-    successBox.innerHTML =
-      "✅ درخواست برداشت ثبت شد." +
-      "<br><br>" +
-      "<strong>مبلغ:</strong> " +
-      amount +
-      " DOGE" +
-      "<br>" +
-      "<strong>آدرس:</strong> " +
-      "<span dir='ltr'>" +
-      escapeHtml(address) +
-      "</span>" +
-      "<br>" +
-      "<strong>وضعیت:</strong> در انتظار پرداخت دستی";
-
     successBox.style.display = "block";
 
     amountInput.value = "";
