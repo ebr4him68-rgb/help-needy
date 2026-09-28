@@ -1579,51 +1579,6 @@ Telegram.WebApp.expand();
 </style>
 <script>
 
-async function getCryptoPrices() {
-
-    try {
-
-        const url =
-        "https://api.coingecko.com/api/v3/simple/price" +
-        "?ids=bitcoin-cash,tron,litecoin,the-open-network,shiba-inu,tether" +
-        "&vs_currencies=usd";
-
-        const response = await fetch(url);
-
-        if (!response.ok) {
-            throw new Error("API Error");
-        }
-
-        const data = await response.json();
-
-        document.getElementById("bch").innerText =
-            "$" + Number(data["bitcoin-cash"].usd).toLocaleString();
-
-        document.getElementById("trx").innerText =
-            "$" + Number(data["tron"].usd).toLocaleString();
-
-        document.getElementById("ltc").innerText =
-            "$" + Number(data["litecoin"].usd).toLocaleString();
-
-        document.getElementById("ton").innerText =
-            "$" + Number(data["the-open-network"].usd).toLocaleString();
-
-        document.getElementById("shib").innerText =
-            "$" + Number(data["shiba-inu"].usd).toLocaleString();
-
-        document.getElementById("usdt").innerText =
-            "$" + Number(data["tether"].usd).toLocaleString();
-
-        document.getElementById("updateTime").innerText =
-            "آخرین بروزرسانی: " +
-            new Date().toLocaleTimeString("fa-IR");
-
-    } catch (error) {
-
-        console.log("خطا در دریافت قیمت:", error);
-
-        document.getElementById("updateTime").innerText =
-            "خطا در دریافت قیمت — دوباره تلاش 
 
 </script>
    <div class="lamp-container">
@@ -2633,4 +2588,141 @@ progressBar.style.width = "0%";
 startMining();
 
 })
+  <div class="woman">
+  <div class="head"></div>
+  <div class="hair"></div>
+
+  <div class="body">
+    <div class="bra">
+      <div class="cup left"></div>
+      <div class="cup right"></div>
+      <div class="lace"></div>
+      <div class="strap left-strap"></div>
+      <div class="strap right-strap"></div>
+    </div>
+  </div>
+</div>
+
+<style>
+body {
+  margin: 0;
+  background: #fff4d6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  font-family: Arial;
+}
+
+.woman {
+  position: relative;
+  width: 300px;
+  height: 520px;
+}
+
+.head {
+  position: absolute;
+  width: 120px;
+  height: 135px;
+  background: #f2b18f;
+  border-radius: 50%;
+  top: 25px;
+  left: 90px;
+  z-index: 3;
+}
+
+.hair {
+  position: absolute;
+  width: 150px;
+  height: 170px;
+  background: #4b2b22;
+  border-radius: 50% 50% 40% 40%;
+  top: 10px;
+  left: 75px;
+  z-index: 2;
+}
+
+.body {
+  position: absolute;
+  top: 145px;
+  left: 30px;
+  width: 240px;
+  height: 340px;
+  background: #f2b18f;
+  border-radius: 45% 45% 20% 20%;
+}
+
+.bra {
+  position: absolute;
+  top: 35px;
+  left: 25px;
+  width: 190px;
+  height: 130px;
+}
+
+.cup {
+  position: absolute;
+  top: 15px;
+  width: 90px;
+  height: 90px;
+  background:
+    repeating-linear-gradient(
+      45deg,
+      rgba(255,255,255,.35) 0px,
+      rgba(255,255,255,.35) 2px,
+      transparent 2px,
+      transparent 7px
+    ),
+    #e83e73;
+  border: 3px solid #b72858;
+  border-radius: 50% 50% 42% 42%;
+}
+
+.left {
+  left: 2px;
+}
+
+.right {
+  right: 2px;
+}
+
+.lace {
+  position: absolute;
+  bottom: 10px;
+  left: 8px;
+  width: 174px;
+  height: 25px;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(255,255,255,.45) 0 4px,
+      transparent 4px 9px
+    );
+  border-bottom: 3px solid #b72858;
+}
+
+.strap {
+  position: absolute;
+  top: -35px;
+  width: 12px;
+  height: 75px;
+  background:
+    repeating-linear-gradient(
+      45deg,
+      #f8a8c0 0 3px,
+      #d93668 3px 6px
+    );
+  border-radius: 8px;
+}
+
+.left-strap {
+  left: 25px;
+  transform: rotate(-15deg);
+}
+
+.right-strap {
+  right: 25px;
+  transform: rotate(15deg);
+}
+</style>
 
