@@ -1708,6 +1708,681 @@ function toggleLamp() {
   }
 }
 </script> 
+    ```html
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>معدن DOGE</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Tahoma,Arial,sans-serif;
+    background:
+      radial-gradient(circle at top,#3a2a0d 0%,#17120a 45%,#080808 100%);
+    color:#fff;
+    min-height:100vh;
+}
+
+.game{
+    width:min(620px,94%);
+    margin:20px auto;
+}
+
+.header{
+    text-align:center;
+    padding:18px;
+}
+
+.logo{
+    font-size:42px;
+    margin-bottom:5px;
+}
+
+h1{
+    margin:0;
+    color:#ffd84a;
+    font-size:27px;
+}
+
+.subtitle{
+    color:#cfcfcf;
+    margin-top:7px;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+    margin-bottom:12px;
+}
+
+.stat{
+    background:rgba(255,255,255,.07);
+    border:1px solid rgba(255,216,74,.25);
+    border-radius:16px;
+    padding:15px;
+    text-align:center;
+}
+
+.stat-title{
+    color:#aaa;
+    font-size:13px;
+}
+
+.stat-value{
+    color:#ffd84a;
+    font-size:22px;
+    font-weight:bold;
+    margin-top:6px;
+}
+
+.mine{
+    position:relative;
+    height:320px;
+    overflow:hidden;
+    border-radius:24px;
+    border:2px solid #5f4614;
+    background:
+      radial-gradient(circle at 20% 80%,#70501b 0 8%,transparent 9%),
+      radial-gradient(circle at 80% 30%,#5d4319 0 7%,transparent 8%),
+      linear-gradient(145deg,#38280e,#1b1409 55%,#0c0b08);
+}
+
+.mine:before,
+.mine:after{
+    content:"";
+    position:absolute;
+    background:#513817;
+    border-radius:50%;
+    opacity:.55;
+}
+
+.mine:before{
+    width:170px;height:170px;
+    left:-50px;bottom:-75px;
+}
+
+.mine:after{
+    width:190px;height:190px;
+    right:-70px;top:-70px;
+}
+
+.tunnel{
+    position:absolute;
+    left:50%;
+    top:35px;
+    transform:translateX(-50%);
+    width:270px;
+    height:245px;
+    border-radius:50% 50% 35% 35%;
+    background:#080705;
+    border:12px solid #5c4116;
+    box-shadow:inset 0 0 35px #000;
+}
+
+.worker{
+    position:absolute;
+    left:50%;
+    bottom:35px;
+    transform:translateX(-50%);
+    z-index:5;
+    text-align:center;
+    font-size:88px;
+    filter:drop-shadow(0 8px 5px #000);
+    animation:work 1.1s infinite ease-in-out;
+}
+
+@keyframes work{
+    0%,100%{transform:translateX(-50%) rotate(0deg)}
+    50%{transform:translateX(-50%) rotate(-7deg) translateY(-5px)}
+}
+
+.hammer{
+    position:absolute;
+    left:calc(50% + 55px);
+    bottom:125px;
+    z-index:6;
+    font-size:45px;
+    animation:hammer .8s infinite alternate ease-in-out;
+}
+
+@keyframes hammer{
+    from{transform:rotate(-35deg)}
+    to{transform:rotate(25deg) translateY(8px)}
+}
+
+.coin{
+    position:absolute;
+    font-size:25px;
+    z-index:4;
+    animation:float 2.2s infinite ease-in-out;
+    filter:drop-shadow(0 0 7px rgba(255,215,0,.6));
+}
+
+.c1{left:20%;top:30%}
+.c2{right:17%;top:55%;animation-delay:.6s}
+.c3{left:38%;top:18%;animation-delay:1s}
+.c4{right:34%;top:25%;animation-delay:1.5s}
+
+@keyframes float{
+    0%,100%{transform:translateY(0) rotate(0deg)}
+    50%{transform:translateY(-13px) rotate(15deg)}
+}
+
+.progress-wrap{
+    margin-top:14px;
+}
+
+.progress-info{
+    display:flex;
+    justify-content:space-between;
+    color:#ccc;
+    font-size:13px;
+    margin-bottom:7px;
+}
+
+.progress{
+    height:13px;
+    background:#181818;
+    border-radius:20px;
+    overflow:hidden;
+    border:1px solid #40300e;
+}
+
+.progress-bar{
+    height:100%;
+    width:0%;
+    background:linear-gradient(90deg,#b68100,#ffd84a,#fff0a0);
+    transition:width .3s;
+}
+
+.buttons{
+    display:grid;
+    gap:10px;
+    margin-top:15px;
+}
+
+button{
+    border:0;
+    border-radius:14px;
+    min-height:52px;
+    padding:13px 18px;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+    color:#17120a;
+    background:linear-gradient(135deg,#ffd84a,#b8860b);
+    box-shadow:0 5px 15px rgba(0,0,0,.35);
+}
+
+button:disabled{
+    opacity:.45;
+    cursor:not-allowed;
+}
+
+.speed{
+    background:linear-gradient(135deg,#fff0a0,#e5a900);
+}
+
+.address-box{
+    margin-top:14px;
+    background:rgba(255,255,255,.06);
+    border:1px solid rgba(255,216,74,.22);
+    padding:14px;
+    border-radius:16px;
+}
+
+.address-label{
+    color:#aaa;
+    font-size:13px;
+    margin-bottom:7px;
+}
+
+.address{
+    direction:ltr;
+    word-break:break-all;
+    color:#ffd84a;
+    font-size:14px;
+}
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.78);
+    align-items:center;
+    justify-content:center;
+    padding:18px;
+    z-index:100;
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-card{
+    width:min(440px,100%);
+    background:#19140b;
+    border:1px solid #765814;
+    border-radius:22px;
+    padding:22px;
+    text-align:center;
+}
+
+.modal-card h2{
+    color:#ffd84a;
+    margin-top:0;
+}
+
+.deposit{
+    direction:ltr;
+    background:#090909;
+    border:1px solid #55400e;
+    border-radius:12px;
+    padding:14px;
+    word-break:break-all;
+    color:#ffd84a;
+    margin:15px 0;
+}
+
+.notice{
+    color:#bbb;
+    font-size:12px;
+    line-height:1.8;
+}
+
+.message{
+    min-height:24px;
+    text-align:center;
+    color:#ffd84a;
+    margin-top:10px;
+    font-size:13px;
+}
+
+.close{
+    background:#333;
+    color:#fff;
+    margin-top:9px;
+}
+
+@media(max-width:420px){
+    .mine{height:290px}
+    .worker{font-size:74px}
+    .hammer{font-size:38px}
+}
+</style>
+</head>
+
+<body>
+
+<div class="game">
+
+    <div class="header">
+        <div class="logo">⛏️ 🪙</div>
+        <h1>معدن DOGE</h1>
+        <div class="subtitle">کارگر معدن در حال استخراج دوج‌کوین است</div>
+    </div>
+
+    <div class="stats">
+        <div class="stat">
+            <div class="stat-title">موجودی DOGE</div>
+            <div class="stat-value" id="balance">0.0000</div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-title">نرخ استخراج روزانه</div>
+            <div class="stat-value" id="dailyRate">10 DOGE</div>
+        </div>
+    </div>
+
+    <div class="mine">
+
+        <div class="tunnel"></div>
+
+        <div class="coin c1">🪙</div>
+        <div class="coin c2">🪙</div>
+        <div class="coin c3">🪙</div>
+        <div class="coin c4">🪙</div>
+
+        <div class="worker">👷</div>
+        <div class="hammer">🔨</div>
+
+    </div>
+
+    <div class="progress-wrap">
+
+        <div class="progress-info">
+            <span id="status">استخراج آماده شروع است</span>
+            <span id="timer">06:00:00</span>
+        </div>
+
+        <div class="progress">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+    </div>
+
+    <div class="buttons">
+
+        <button id="collectBtn" disabled>
+            🪙 جمع‌آوری DOGE
+        </button>
+
+        <button class="speed" id="depositBtn">
+            ⚡ واریز 100 DOGE برای سرعت ۲×
+        </button>
+
+    </div>
+
+    <div class="address-box">
+        <div class="address-label">آدرس DOGE دریافت سایت</div>
+        <div class="address">
+            DA9b1AqJqgsdFNuJNjzRo2g5wFj1rEeQLk
+        </div>
+    </div>
+
+    <div class="message" id="message"></div>
+
+</div>
+
+
+<!-- Deposit Modal -->
+<div class="modal" id="depositModal">
+
+    <div class="modal-card">
+
+        <h2>⚡ فعال‌سازی سرعت ۲×</h2>
+
+        <p>
+            مبلغ موردنیاز:
+            <strong>100 DOGE</strong>
+        </p>
+
+        <p class="notice">
+            برای واریز، آدرس زیر را کپی کرده و 100 DOGE
+            ارسال کنید.
+        </p>
+
+        <div class="deposit" id="depositAddress">
+            DA9b1AqJqgsdFNuJNjzRo2g5wFj1rEeQLk
+        </div>
+
+        <button id="copyBtn">
+            📋 کپی آدرس DOGE
+        </button>
+
+        <p class="notice">
+            پس از تأیید تراکنش در شبکه DOGE، سرعت ۲×
+            باید توسط سیستم پرداخت/سرور تأیید شود.
+        </p>
+
+        <button class="close" id="closeBtn">
+            بستن
+        </button>
+
+    </div>
+
+</div>
+
+
+<script>
+(function(){
+
+    const SITE_DOGE_ADDRESS =
+        "DA9b1AqJqgsdFNuJNjzRo2g5wFj1rEeQLk";
+
+    const NORMAL_DAILY = 10;
+    const FAST_DAILY = 20;
+
+    const CYCLE_SECONDS = 6 * 60 * 60;
+
+    let balance = 0;
+    let mining = false;
+    let speed2x = false;
+    let cycleStart = null;
+    let cycleEnd = null;
+
+    const balanceEl = document.getElementById("balance");
+    const dailyRateEl = document.getElementById("dailyRate");
+    const statusEl = document.getElementById("status");
+    const timerEl = document.getElementById("timer");
+    const progressBar = document.getElementById("progressBar");
+    const collectBtn = document.getElementById("collectBtn");
+    const messageEl = document.getElementById("message");
+
+    const modal = document.getElementById("depositModal");
+    const depositBtn = document.getElementById("depositBtn");
+    const copyBtn = document.getElementById("copyBtn");
+    const closeBtn = document.getElementById("closeBtn");
+
+    function updateBalance(){
+        balanceEl.textContent = balance.toFixed(4);
+        dailyRateEl.textContent =
+            (speed2x ? FAST_DAILY : NORMAL_DAILY) + " DOGE";
+    }
+
+    function formatTime(seconds){
+
+        seconds = Math.max(0, Math.floor(seconds));
+
+        const h = Math.floor(seconds / 3600);
+        const m = Math.floor((seconds % 3600) / 60);
+        const s = seconds % 60;
+
+        return [
+            String(h).padStart(2,"0"),
+            String(m).padStart(2,"0"),
+            String(s).padStart(2,"0")
+        ].join(":");
+    }
+
+    function startMining(){
+
+        mining = true;
+
+        cycleStart = Date.now();
+        cycleEnd = cycleStart + CYCLE_SECONDS * 1000;
+
+        collectBtn.disabled = true;
+
+        statusEl.textContent =
+            speed2x
+            ? "استخراج با سرعت ۲× در حال انجام است"
+            : "کارگر در حال استخراج است";
+
+        messageEl.textContent = "";
+
+        updateTimer();
+    }
+
+    function updateTimer(){
+
+        if(!mining) return;
+
+        const now = Date.now();
+
+        const remaining =
+            Math.max(0, Math.ceil((cycleEnd - now) / 1000));
+
+        const elapsed =
+            Math.min(
+                CYCLE_SECONDS,
+                Math.max(0, Math.floor((now - cycleStart) / 1000))
+            );
+
+        const percent =
+            (elapsed / CYCLE_SECONDS) * 100;
+
+        progressBar.style.width = percent + "%";
+        timerEl.textContent = formatTime(remaining);
+
+        if(remaining <= 0){
+
+            mining = false;
+
+            collectBtn.disabled = false;
+
+            statusEl.textContent =
+                "استخراج کامل شد؛ DOGE را جمع‌آوری کنید";
+
+            timerEl.textContent = "00:00:00";
+
+            const sixHourReward =
+                speed2x ? 5 : 2.5;
+
+            collectBtn.dataset.reward =
+                sixHourReward.toString();
+
+            return;
+        }
+
+        requestAnimationFrame(updateTimer);
+    }
+
+    collectBtn.addEventListener("click",function(){
+
+        if(mining) return;
+
+        const reward =
+            Number(collectBtn.dataset.reward || 0);
+
+        if(reward <= 0) return;
+
+        balance += reward;
+
+        updateBalance();
+
+        messageEl.textContent =
+            "✅ " + reward.toFixed(2) +
+            " DOGE به موجودی اضافه شد.";
+
+        collectBtn.dataset.reward = "0";
+
+        progressBar.style.width = "0%";
+
+        startMining();
+    });
+
+
+    depositBtn.addEventListener("click",function(){
+
+        document.getElementById("depositAddress").textContent =
+            SITE_DOGE_ADDRESS;
+
+        modal.classList.add("show");
+
+    });
+
+
+    closeBtn.addEventListener("click",function(){
+        modal.classList.remove("show");
+    });
+
+
+    modal.addEventListener("click",function(e){
+
+        if(e.target === modal){
+            modal.classList.remove("show");
+        }
+
+    });
+
+
+    copyBtn.addEventListener("click",function(){
+
+        const address = SITE_DOGE_ADDRESS;
+
+        /*
+         * Clipboard API در بعضی WebViewها محدود است.
+         * ابتدا روش استاندارد امتحان می‌شود.
+         */
+
+        if(navigator.clipboard){
+
+            navigator.clipboard.writeText(address)
+            .then(function(){
+
+                copyBtn.textContent = "✅ آدرس کپی شد";
+
+                setTimeout(function(){
+                    copyBtn.textContent = "📋 کپی آدرس DOGE";
+                },1800);
+
+            })
+            .catch(function(){
+                fallbackCopy(address);
+            });
+
+        }else{
+            fallbackCopy(address);
+        }
+
+    });
+
+
+    function fallbackCopy(text){
+
+        const input =
+            document.createElement("textarea");
+
+        input.value = text;
+        input.style.position = "fixed";
+        input.style.opacity = "0";
+
+        document.body.appendChild(input);
+
+        input.focus();
+        input.select();
+
+        try{
+            document.execCommand("copy");
+            copyBtn.textContent = "✅ آدرس کپی شد";
+        }catch(e){
+            copyBtn.textContent = "آدرس را دستی کپی کنید";
+        }
+
+        document.body.removeChild(input);
+
+        setTimeout(function(){
+            copyBtn.textContent = "📋 کپی آدرس DOGE";
+        },1800);
+    }
+
+
+    /*
+     * نکته امنیتی:
+     *
+     * این متغیر عمداً با کلیک کاربر فعال نمی‌شود.
+     * در نسخه واقعی، سرور باید تراکنش 100 DOGE را
+     * روی شبکه بررسی کند و سپس speed2x را فعال کند.
+     *
+     * نمونه منطق سمت سرور:
+     *
+     * if (confirmedDeposit >= 100 DOGE) {
+     *     speed2x = true;
+     * }
+     */
+
+
+    updateBalance();
+
+    /*
+     * شروع اولین دوره استخراج
+     */
+    startMining();
+
+})();
+</script>
+
+</body>
+</html>
+```
+
 </body>
   </html>
 
