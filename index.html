@@ -1389,16 +1389,258 @@ update();
 }
 </style>
   <div style="text-align:center;">
-  <img
-    src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=500&q=80"
-    alt="تصویر تبلیغاتی"
-    style="width:180px;height:230px;object-fit:cover;border-radius:15px;"
-  >
-  </div>
+  
+    style="width:180px;height:230px;object-fit:cover;border-ra
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <script>
 Telegram.WebApp.ready();
 Telegram.WebApp.expand();
+</script>
+    <!-- LIVE CRYPTO PRICES -->
+
+<div class="crypto-widget">
+
+    <div class="crypto-title">
+        💰 قیمت لحظه‌ای ارزها
+        <span class="live-text">
+            <span class="live-dot"></span> LIVE
+        </span>
+    </div>
+
+    <div class="crypto-grid">
+
+        <div class="coin">
+            <span class="coin-name">Bitcoin Cash</span>
+            <span class="symbol">BCH</span>
+            <span class="coin-price" id="bch">در حال دریافت...</span>
+            <span class="status"><span class="coin-dot"></span></span>
+        </div>
+
+        <div class="coin">
+            <span class="coin-name">TRON</span>
+            <span class="symbol">TRX</span>
+            <span class="coin-price" id="trx">در حال دریافت...</span>
+            <span class="status"><span class="coin-dot"></span></span>
+        </div>
+
+        <div class="coin">
+            <span class="coin-name">Litecoin</span>
+            <span class="symbol">LTC</span>
+            <span class="coin-price" id="ltc">در حال دریافت...</span>
+            <span class="status"><span class="coin-dot"></span></span>
+        </div>
+
+        <div class="coin">
+            <span class="coin-name">Toncoin</span>
+            <span class="symbol">TON</span>
+            <span class="coin-price" id="ton">در حال دریافت...</span>
+            <span class="status"><span class="coin-dot"></span></span>
+        </div>
+
+        <div class="coin">
+            <span class="coin-name">Shiba Inu</span>
+            <span class="symbol">SHIB</span>
+            <span class="coin-price" id="shib">در حال دریافت...</span>
+            <span class="status"><span class="coin-dot"></span></span>
+        </div>
+
+        <div class="coin">
+            <span class="coin-name">Tether</span>
+            <span class="symbol">USDT</span>
+            <span class="coin-price" id="usdt">در حال دریافت...</span>
+            <span class="status"><span class="coin-dot"></span></span>
+        </div>
+
+    </div>
+
+    <div class="update-time" id="updateTime">
+        آخرین بروزرسانی: —
+    </div>
+
+</div>
+
+
+<style>
+
+.crypto-widget {
+    width: 100%;
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 18px;
+    box-sizing: border-box;
+    background: #111;
+    border: 1px solid #292929;
+    border-radius: 18px;
+    color: white;
+    font-family: Arial, sans-serif;
+    box-shadow: 0 8px 30px rgba(0,0,0,.35);
+}
+
+.crypto-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.live-text {
+    color: #00e676;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.live-dot,
+.coin-dot {
+    width: 9px;
+    height: 9px;
+    display: inline-block;
+    background: #00e676;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #00e676;
+    animation: blink 1s infinite;
+}
+
+.crypto-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.coin {
+    position: relative;
+    background: #1b1b1b;
+    border-radius: 12px;
+    padding: 14px;
+    border: 1px solid #292929;
+    transition: .2s;
+}
+
+.coin:hover {
+    border-color: #00e676;
+    transform: translateY(-2px);
+}
+
+.coin-name {
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.symbol {
+    display: block;
+    color: #999;
+    font-size: 11px;
+    margin-top: 3px;
+}
+
+.coin-price {
+    display: block;
+    margin-top: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #fff;
+}
+
+.status {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+}
+
+.update-time {
+    margin-top: 15px;
+    text-align: center;
+    color: #888;
+    font-size: 11px;
+}
+
+@keyframes blink {
+    0%,100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: .25;
+    }
+}
+
+@media(max-width:650px) {
+
+    .crypto-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .coin-price {
+        font-size: 15px;
+    }
+
+}
+
+</style>
+
+
+<script>
+
+async function getCryptoPrices() {
+
+    try {
+
+        const url =
+        "https://api.coingecko.com/api/v3/simple/price" +
+        "?ids=bitcoin-cash,tron,litecoin,the-open-network,shiba-inu,tether" +
+        "&vs_currencies=usd";
+
+        const response = await fetch(url);
+
+        if (!response.ok) {
+            throw new Error("API Error");
+        }
+
+        const data = await response.json();
+
+        document.getElementById("bch").innerText =
+            "$" + Number(data["bitcoin-cash"].usd).toLocaleString();
+
+        document.getElementById("trx").innerText =
+            "$" + Number(data["tron"].usd).toLocaleString();
+
+        document.getElementById("ltc").innerText =
+            "$" + Number(data["litecoin"].usd).toLocaleString();
+
+        document.getElementById("ton").innerText =
+            "$" + Number(data["the-open-network"].usd).toLocaleString();
+
+        document.getElementById("shib").innerText =
+            "$" + Number(data["shiba-inu"].usd).toLocaleString();
+
+        document.getElementById("usdt").innerText =
+            "$" + Number(data["tether"].usd).toLocaleString();
+
+        document.getElementById("updateTime").innerText =
+            "آخرین بروزرسانی: " +
+            new Date().toLocaleTimeString("fa-IR");
+
+    } catch (error) {
+
+        console.log("خطا در دریافت قیمت:", error);
+
+        document.getElementById("updateTime").innerText =
+            "خطا در دریافت قیمت — دوباره تلاش می‌شود";
+
+    }
+
+}
+
+
+/* دریافت قیمت هنگام باز شدن سایت */
+getCryptoPrices();
+
+/* بروزرسانی هر ۳۰ ثانیه */
+setInterval(getCryptoPrices, 30000);
+
 </script>
 </body>
   </html>
