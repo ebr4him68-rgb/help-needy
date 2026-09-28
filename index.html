@@ -1575,13 +1575,8 @@ Telegram.WebApp.expand();
 
     .coin-price {
         font-size: 15px;
-    }
-
-}
-
+    
 </style>
-
-
 <script>
 
 async function getCryptoPrices() {
@@ -1642,6 +1637,77 @@ getCryptoPrices();
 setInterval(getCryptoPrices, 30000);
 
 </script>
+   <div class="lamp-container">
+  <div id="lamp" class="lamp on" onclick="toggleLamp()">
+    <div class="bulb">💡</div>
+  </div>
+  <div id="lampText">لامپ روشن است</div>
+</div>
+
+<style>
+.lamp-container {
+  text-align: center;
+  margin: 20px auto;
+  font-family: Arial, sans-serif;
+}
+
+.lamp {
+  display: inline-flex;
+  width: 80px;
+  height: 80px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.bulb {
+  font-size: 55px;
+  transition: 0.3s;
+}
+
+.lamp.on {
+  background: rgba(255, 220, 0, 0.15);
+  box-shadow:
+    0 0 15px #ffd600,
+    0 0 35px #ffd600,
+    0 0 60px #ffea00;
+}
+
+.lamp.off {
+  background: #222;
+  box-shadow: none;
+}
+
+.lamp.off .bulb {
+  filter: grayscale(1);
+  opacity: 0.45;
+}
+
+#lampText {
+  margin-top: 8px;
+  color: #ffd600;
+  font-size: 14px;
+  font-weight: bold;
+}
+</style>
+
+<script>
+function toggleLamp() {
+  const lamp = document.getElementById("lamp");
+  const text = document.getElementById("lampText");
+
+  lamp.classList.toggle("on");
+  lamp.classList.toggle("off");
+
+  if (lamp.classList.contains("on")) {
+    text.innerText = "لامپ روشن است";
+  } else {
+    text.innerText = "لامپ خاموش است";
+  }
+}
+</script> 
 </body>
   </html>
 
